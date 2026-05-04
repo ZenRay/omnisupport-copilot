@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "omni://contracts/data/document_chunk/v1",
+  "title": "DocumentChunk",
+  "description": "Week07 retrieval-ready chunk with explicit evidence anchors.",
+  "type": "object",
+  "required": [
+    "chunk_id",
+    "doc_id",
+    "source_id",
+    "section_id",
+    "source_fingerprint",
+    "chunk_index",
+    "chunk_strategy_version",
+    "parse_strategy_version",
+    "data_release_id",
+    "content",
+    "evidence_anchor_ids",
+    "anchor_count",
+    "quality_status",
+    "allowed_for_indexing"
+  ],
+  "properties": {
+    "chunk_id": {"type": "string", "pattern": "^chunk-[a-f0-9]{16,64}$"},
+    "doc_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "section_id": {"type": "string", "pattern": "^section-[a-f0-9]{16,64}$"},
+    "source_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "chunk_index": {"type": "integer", "minimum": 0},
+    "section_chunk_index": {"type": "integer", "minimum": 0},
+    "chunk_strategy_version": {"type": "string", "minLength": 1},
+    "parse_strategy_version": {"type": "string", "minLength": 1},
+    "data_release_id": {"type": "string", "minLength": 1},
+    "doc_version": {"type": ["string", "null"]},
+    "section_path": {"type": ["string", "null"]},
+    "section_type": {"type": ["string", "null"]},
+    "content": {"type": "string", "minLength": 1},
+    "page_no": {"type": ["integer", "null"], "minimum": 1},
+    "bbox": {
+      "oneOf": [
+        {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"type": "number"}
+        },
+        {"type": "null"}
+      ]
+    },
+    "evidence_anchor_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "pattern": "^anchor-[a-f0-9]{16,64}$"}
+    },
+    "anchor_count": {"type": "integer", "minimum": 1},
+    "quality_status": {"type": "string", "enum": ["pass", "warn", "fail", "quarantine"]},
+    "allowed_for_indexing": {"type": "boolean"},
+    "pii_detected": {"type": "boolean"},
+    "reason_codes": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
